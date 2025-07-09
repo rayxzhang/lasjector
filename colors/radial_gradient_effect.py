@@ -32,14 +32,14 @@ class RadialGradientEffect(EffectRenderer):
         # Create custom radial gradient colormap
         self.cmap = LinearSegmentedColormap.from_list("radial_gradient", list(zip(positions, colors)))
     
-    def generate_radial_gradient_circular(self, height, width, zoom_factor=1):
+    def generate_radial_gradient_circular(self, width, height, zoom_factor=1):
         """
         Generates a smooth radial (circular) gradient that fits within the smallest dimension.
         The outermost ring fills the remaining space.
 
         Args:
-            height (int): Height of the image.
             width (int): Width of the image.
+            height (int): Height of the image.
             zoom_factor (float): Zoom factor for the gradient (higher = more zoomed in).
 
         Returns:
@@ -74,14 +74,7 @@ class RadialGradientEffect(EffectRenderer):
         # Check if we need to regenerate the cached surface
         if self.cached_surface is None or self.cached_size != current_size:
             # Generate the circular gradient (static)
-            # Height is expected before width when generating the gradient.
-            # Passing the dimensions in this order keeps the circular
-            # gradient oriented correctly on any aspect ratio.
-            gradient_rgb = self.generate_radial_gradient_circular(
-                surface_height,
-                surface_width,
-                0.65,
-            )
+            gradient_rgb = self.generate_radial_gradient_circular(surface_height, surface_width, .65)
             
             # Convert to pygame surface format (0-255, integer)
             gradient_rgb_255 = (gradient_rgb[:, :, :3] * 255).astype(np.uint8) 
@@ -90,4 +83,5 @@ class RadialGradientEffect(EffectRenderer):
             self.cached_surface = pygame.surfarray.make_surface(gradient_rgb_255)
             self.cached_size = current_size
         
-        # Blit the cached gradient onto the main surface        surface.blit(self.cached_surface, (0, 0)) 
+        # Blit the cached gradient onto the main surface
+        surface.blit(self.cached_surface, (0, 0)) 

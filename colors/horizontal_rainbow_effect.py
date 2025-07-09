@@ -31,13 +31,13 @@ class HorizontalRainbowEffect(EffectRenderer):
         # Create custom horizontal rainbow colormap
         self.cmap = LinearSegmentedColormap.from_list("horizontal_rainbow", list(zip(positions, colors)))
     
-    def generate_horizontal_rainbow(self, height, width):
+    def generate_horizontal_rainbow(self, width, height):
         """
         Generates a horizontal rainbow gradient.
 
         Args:
-            height (int): Height of the image.
             width (int): Width of the image.
+            height (int): Height of the image.
 
         Returns:
             np.ndarray: RGB image array of the gradient.
@@ -64,13 +64,7 @@ class HorizontalRainbowEffect(EffectRenderer):
         # Check if we need to regenerate the cached surface
         if self.cached_surface is None or self.cached_size != current_size:
             # Generate the horizontal rainbow gradient
-            # Height is expected before width when generating the gradient.
-            # Passing the dimensions in this order ensures the rainbow spans
-            # horizontally across the surface without being rotated.
-            gradient_rgb = self.generate_horizontal_rainbow(
-                surface_height,
-                surface_width,
-            )
+            gradient_rgb = self.generate_horizontal_rainbow(surface_height, surface_width)
             
             # Convert to pygame surface format (0-255, integer)
             gradient_rgb_255 = (gradient_rgb[:, :, :3] * 255).astype(np.uint8) 
@@ -79,4 +73,5 @@ class HorizontalRainbowEffect(EffectRenderer):
             self.cached_surface = pygame.surfarray.make_surface(gradient_rgb_255)
             self.cached_size = current_size
         
-        # Blit the cached gradient onto the main surface        surface.blit(self.cached_surface, (0, 0)) 
+        # Blit the cached gradient onto the main surface
+        surface.blit(self.cached_surface, (0, 0)) 
