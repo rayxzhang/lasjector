@@ -5,6 +5,11 @@ Colors Registry - Manages all available color effects
 from .base_color_effect import BaseColorEffect
 from .radial_gradient_effect import RadialGradientEffect
 from .horizontal_rainbow_effect import HorizontalRainbowEffect
+from .red_color_effect import RedColorEffect
+from .blue_color_effect import BlueColorEffect
+from .green_color_effect import GreenColorEffect
+from .yellow_color_effect import YellowColorEffect
+from .purple_color_effect import PurpleColorEffect
 
 
 class ColorsRegistry:
@@ -13,6 +18,11 @@ class ColorsRegistry:
     def __init__(self):
         self.colors = {
             "Base Color": BaseColorEffect,
+            "Red": RedColorEffect,
+            "Blue": BlueColorEffect,
+            "Green": GreenColorEffect,
+            "Yellow": YellowColorEffect,
+            "Purple": PurpleColorEffect,
             "Radial Gradient": RadialGradientEffect,
             "Horizontal Rainbow": HorizontalRainbowEffect,
         }
