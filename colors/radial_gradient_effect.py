@@ -32,7 +32,7 @@ class RadialGradientEffect(EffectRenderer):
         # Create custom radial gradient colormap
         self.cmap = LinearSegmentedColormap.from_list("radial_gradient", list(zip(positions, colors)))
     
-    def generate_radial_gradient_circular(self, width, height, zoom_factor=1):
+    def generate_radial_gradient_circular(self, height, width, zoom_factor=1):
         """
         Generates a smooth radial (circular) gradient that fits within the smallest dimension.
         The outermost ring fills the remaining space.
@@ -46,14 +46,14 @@ class RadialGradientEffect(EffectRenderer):
             np.ndarray: RGB image array of the gradient.
         """
         # Create coordinate grid centered at (0,0)
-        x = np.linspace(-1, 1, width)
-        y = np.linspace(-1, 1, height)
+        x = np.linspace(-1, 1, height)
+        y = np.linspace(-1, 1, width)
         xx, yy = np.meshgrid(x, y)
 
         # Normalize radius using the smaller dimension to keep it circular
-        min_dim = min(width, height)
-        norm_xx = xx * (width / min_dim)
-        norm_yy = yy * (height / min_dim)
+        min_dim = min(height, width)
+        norm_xx = xx * (height / min_dim)
+        norm_yy = yy * (width / min_dim)
         radius = np.sqrt(norm_xx**2 + norm_yy**2)
         
         # Apply zoom factor
